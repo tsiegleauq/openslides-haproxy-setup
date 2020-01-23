@@ -1,0 +1,36 @@
+version: '3'
+services:
+  client-dev:
+    build:
+      context: /home/sean/git-workspace/openslides-client
+      dockerfile: Dockerfile-dev
+    image: client-dev
+    volumes:
+      - /home/sean/git-workspace/openslides-client/client:/app
+    ports:
+      - "4200:4200"
+    networks:
+      - sean
+  os4-ba:
+    build:
+      context: /home/sean/git-workspace/openslides-backend
+      dockerfile: Dockerfile-dev
+    image: os4-ba
+    volumes:
+      - /home/sean/git-workspace/openslides-backend/openslides_backend:/srv/code/openslides_backend
+    ports:
+      - "8000:8000"
+    networks:
+      - sean
+  haproxy:
+    build:
+      context: ./
+      dockerfile: Dockerfile-os4
+    image: haproxy-os4
+    ports:
+      - "80:2000"  # haproxy is running on port 2000, reachable with port 8000 from the host machine
+    networks:
+      - sean
+
+networks:
+  sean:

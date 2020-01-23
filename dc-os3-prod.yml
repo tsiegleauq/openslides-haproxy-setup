@@ -1,0 +1,28 @@
+version: '3'
+services:
+  client:
+    build: /home/sean/git-workspace/openslides-client
+    image: client
+    ports:
+      - "8080:80"
+    networks:
+      - sean
+  os3-server:
+    build: /home/sean/openslides-server-legacy
+    image: os3-server
+    ports:
+      - "8000:8000"
+    networks:
+      - sean
+  haproxy:
+    build:
+      context: ./
+      dockerfile: Dockerfile-os3-prod
+    image: haproxy-os3-prod
+    ports:
+      - "80:2000"  # haproxy is running on port 2000, reachable with port 8000 from the host machine
+    networks:
+      - sean
+
+networks:
+  sean:

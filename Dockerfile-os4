@@ -1,0 +1,8 @@
+FROM haproxy:2.0.8-alpine
+
+COPY src/haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
+COPY src/frontend-os4.cfg /usr/local/etc/haproxy/frontend-os4.cfg
+COPY src/client-dev.cfg /usr/local/etc/haproxy/client-dev.cfg
+COPY src/backend-os4.cfg /usr/local/etc/haproxy/backend-os4.cfg
+
+CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg", "-f", "/usr/local/etc/haproxy/frontend-os4.cfg", "-f", "/usr/local/etc/haproxy/client-dev.cfg", "-f", "/usr/local/etc/haproxy/backend-os4.cfg"]
